@@ -18,4 +18,14 @@ public class Word {
         this.word_explain = word_explain;
     }
 
+    /**
+     * Format word to display form.
+     *
+     * @return formatted word
+     */
+    public String formattedWord() {
+        String formattedWord;
+        formattedWord = String.format("%-30s %s", "| " + word_target, "| " + word_explain);
+        return formattedWord;
+    }
 }

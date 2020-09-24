@@ -1,27 +1,20 @@
 import java.util.Scanner;
 
 public class DictionaryManagement {
-    Scanner wordScan = new Scanner(System.in);
-    Dictionary dictionary = new Dictionary();
+    static Scanner wordScan = new Scanner(System.in);
 
     /**
-     * Construct manager for a existing dictionary.
-     *
-     * @param dictionary dictionary to manage
+     * Insert a word from commandline to selected dictionary.
      */
-    public DictionaryManagement(Dictionary dictionary) {
-        this.dictionary = dictionary;
-    }
-
-
-    public void insertFromCommandline() {
+    public static void insertFromCommandline(Dictionary dictionary) {
         int n;
         n = wordScan.nextInt();
-        Word temp = new Word();
+        String buffer = wordScan.nextLine();
         for (int i = 0; i < n; i++) {
+            Word temp = new Word();
             temp.setWord_target(wordScan.nextLine());
             temp.setWord_explain(wordScan.nextLine());
-            dictionary.addWord(temp);
+            dictionary.addWord(dictionary.size(), temp);
         }
     }
 }
