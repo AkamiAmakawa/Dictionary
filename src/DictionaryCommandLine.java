@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class DictionaryCommandLine {
     /**
      * Display the dictionary in a formatted way.
@@ -11,9 +13,10 @@ public class DictionaryCommandLine {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Dictionary engDict = new Dictionary();
         DictionaryManagement.insertFromCommandline(engDict);
+        DictionaryManagement.insertFromFile(engDict);
         DictionaryCommandLine.showAllWords(engDict);
     }
 }
