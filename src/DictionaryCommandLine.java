@@ -18,11 +18,21 @@ public class DictionaryCommandLine {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void dictionaryBasic(){
         Dictionary engDict = new Dictionary();
         DictionaryManagement.insertFromCommandline(engDict);
+        DictionaryCommandLine.showAllWords(engDict);
+    }
+
+    public static void dictionaryAdvanced() throws IOException {
+        Dictionary engDict = new Dictionary();
         DictionaryManagement.insertFromFile(engDict);
         DictionaryCommandLine.showAllWords(engDict);
+    }
+
+    public static void main(String[] args) throws IOException{
+        dictionaryBasic();
+        dictionaryAdvanced();
     }
 }
 
