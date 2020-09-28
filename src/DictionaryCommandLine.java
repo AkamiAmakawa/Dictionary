@@ -11,10 +11,14 @@ public class DictionaryCommandLine {
         }
     }
 
-    public static void main(String[] args) {
+    public static void dictionaryBasic(){
         Dictionary engDict = new Dictionary();
         DictionaryManagement.insertFromCommandline(engDict);
         DictionaryCommandLine.showAllWords(engDict);
+    }
+
+    public static void main(String[] args) {
+        dictionaryBasic();
     }
 }
 
