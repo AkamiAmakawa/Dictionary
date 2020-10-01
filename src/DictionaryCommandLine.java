@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.net.BindException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,18 +12,20 @@ public class DictionaryCommandLine {
         System.out.format("%-8s %-30s %s \n", "No", "| English", "| Vietnamese");
         int index = 0;
         for (int i = 0; i < 40; i++) {
-            for(int j = 0; j < dictionary.size(i); j++){
-                System.out.format("%-8d %s \n", index + 1, dictionary.getWord(i,j).formattedWord());
+            for (int j = 0; j < dictionary.size(i); j++) {
+                System.out.format("%-8d %s \n", index + 1, dictionary.getWord(i, j).formattedWord());
                 index++;
             }
         }
     }
 
-    public static void dictionaryLookup(Dictionary dictionary){
+    public static void dictionaryLookup(Dictionary dictionary) {
         Scanner scanInput = new Scanner(System.in);
         String lookupWord = scanInput.nextLine();
         int lookupIndex = Character.toUpperCase(lookupWord.charAt(0)) - 64;
-        if (lookupIndex < 1 || lookupIndex > 36) { lookupIndex = 0; }
+        if (lookupIndex < 1 || lookupIndex > 36) {
+            lookupIndex = 0;
+        }
 
         int firstCharLibSize = dictionary.size(lookupIndex);
         ArrayList<Word> charLib = dictionary.getGroup(lookupIndex);
@@ -43,7 +44,7 @@ public class DictionaryCommandLine {
         }
     }
 
-    public static void dictionaryBasic(){
+    public static void dictionaryBasic() {
         Dictionary engDict = new Dictionary();
         DictionaryManagement.insertFromCommandline(engDict);
         DictionaryCommandLine.showAllWords(engDict);
@@ -56,7 +57,7 @@ public class DictionaryCommandLine {
         DictionaryCommandLine.dictionaryLookup(engDict);
     }
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
         dictionaryBasic();
         dictionaryAdvanced();
     }

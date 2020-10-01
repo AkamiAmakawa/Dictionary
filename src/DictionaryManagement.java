@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -29,11 +28,12 @@ public class DictionaryManagement {
     /**
      * Read words from data/dictionary.txt.
      * Each word must be on one line along with its meaning separated by tab.
+     *
      * @param dictionary dictionary to add word to
      * @throws IOException when file not found
      */
     public static void insertFromFile(Dictionary dictionary) throws IOException {
-        BufferedReader fileReader = new BufferedReader(new FileReader(System.getProperty("user.dir")+"/data/dictionaries.txt"));
+        BufferedReader fileReader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/data/dictionaries.txt"));
         Pattern wordPattern = Pattern.compile("(.+?)\t(.+?)");
         String line;
         while ((line = fileReader.readLine()) != null) {
