@@ -1,26 +1,39 @@
 import java.util.ArrayList;
 
 public class Dictionary {
-    private final ArrayList<Word> words = new ArrayList<>();
+    private final ArrayList<ArrayList<Word>> words = new ArrayList<>();
+
+    public Dictionary() {
+        for (int i = 0; i < 40; i++) {
+            words.add(new ArrayList<>());
+        }
+    }
 
     /**
-     * Add a word to index location.
+     * Add word to respective group according to index
+     * from a, b, c will be in group 1, 2, 3 accordingly.
+     * Unknown character will be in group 0.
      *
-     * @param index location to add to
-     * @param word  word to add
+     * @param word word to add
      */
-    public void addWord(int index, Word word) {
-        words.add(index, word);
+    public void addWord(Word word) {
+        int index = Character.toUpperCase(word.getWord_target().charAt(0)) - 64;
+        if (index < 1 || index > 36) {
+            words.get(0).add(word);
+        } else {
+            words.get(index).add(word);
+        }
     }
 
-    public Word getWord(int index) {
-        return words.get(index);
+    public Word getWord(int group, int index) {
+        return words.get(group).get(index);
     }
 
-    /**
-     * @return size of the dictionary
-     */
-    public int size() {
-        return words.size();
+    public ArrayList<Word> getGroup(int group) {
+        return words.get(group);
+    }
+
+    public int size(int group) {
+        return words.get(group).size();
     }
 }

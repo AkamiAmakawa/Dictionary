@@ -1,0 +1,4 @@
+odd	Not even
+even	not odd
+@	not a word, just for testing purpose
+1	not a word, just for testing purpose
