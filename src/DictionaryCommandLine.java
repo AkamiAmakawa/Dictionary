@@ -1,5 +1,8 @@
 import java.io.IOException;
 import java.net.BindException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Scanner;
 
 public class DictionaryCommandLine {
     /**
@@ -18,6 +21,29 @@ public class DictionaryCommandLine {
         }
     }
 
+    public static void dictionaryLookup(Dictionary dictionary){
+        Scanner scanInput = new Scanner(System.in);
+        String lookupWord = scanInput.nextLine();
+        int lookupIndex = Character.toUpperCase(lookupWord.charAt(0)) - 64;
+        if (lookupIndex < 1 || lookupIndex > 36) { lookupIndex = 0; }
+
+        int firstCharLibSize = dictionary.size(lookupIndex);
+        ArrayList<Word> charLib = dictionary.getGroup(lookupIndex);
+
+        boolean result = false;
+
+        for (int i = 0; i < firstCharLibSize; i++) {
+            if (charLib.get(i).getWord_target().equals(lookupWord)) {
+                result = true;
+                System.out.format("%s \n", charLib.get(i).formattedWord());
+            }
+        }
+
+        if (!result) {
+            System.out.println("word won't exist");
+        }
+    }
+
     public static void dictionaryBasic(){
         Dictionary engDict = new Dictionary();
         DictionaryManagement.insertFromCommandline(engDict);
@@ -28,6 +54,7 @@ public class DictionaryCommandLine {
         Dictionary engDict = new Dictionary();
         DictionaryManagement.insertFromFile(engDict);
         DictionaryCommandLine.showAllWords(engDict);
+        DictionaryCommandLine.dictionaryLookup(engDict);
     }
 
     public static void main(String[] args) throws IOException{

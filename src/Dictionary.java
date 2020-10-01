@@ -28,6 +28,8 @@ public class Dictionary {
         return words.get(group).get(index);
     }
 
+    public ArrayList<Word> getGroup(int group) { return words.get(group); }
+
     public int size(int group) {
         return words.get(group).size();
     }
