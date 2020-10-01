@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.net.BindException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Scanner;
 
 public class DictionaryCommandLine {
