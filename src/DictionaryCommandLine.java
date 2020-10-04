@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DictionaryCommandLine {
     /**
@@ -33,14 +35,14 @@ public class DictionaryCommandLine {
         boolean result = false;
 
         for (int i = 0; i < firstCharLibSize; i++) {
-            if (charLib.get(i).getWord_target().equals(lookupWord)) {
+            if (charLib.get(i).getWord_target().equalsIgnoreCase(lookupWord)) {
                 result = true;
                 System.out.format("%s \n", charLib.get(i).formattedWord());
             }
         }
 
         if (!result) {
-            System.out.println("word won't exist");
+            System.out.println("Word won't exist");
         }
     }
 
@@ -50,15 +52,37 @@ public class DictionaryCommandLine {
         DictionaryCommandLine.showAllWords(engDict);
     }
 
+    public static void dictionarySearcher(Dictionary dictionary) {
+        Scanner wordScan = new Scanner(System.in);
+        String targetWord = wordScan.nextLine();
+        int group = Character.toUpperCase(targetWord.charAt(0)) - 64;
+        if (group < 1 || group > 36) {
+            group = 0;
+        }
+
+        //Create pattern
+        targetWord += ".+?";
+        Pattern targetPattern = Pattern.compile((targetWord), Pattern.CASE_INSENSITIVE);
+
+        for (int i = 0; i < dictionary.size(group); i++) {
+            Matcher wordMatcher = targetPattern.matcher(dictionary.getWord(group, i).getWord_target());
+            if (wordMatcher.matches()) {
+                System.out.println(dictionary.getWord(group,i).formattedWord());
+            }
+        }
+    }
+
     public static void dictionaryAdvanced() throws IOException {
         Dictionary engDict = new Dictionary();
         DictionaryManagement.insertFromFile(engDict);
-        DictionaryCommandLine.showAllWords(engDict);
-        DictionaryCommandLine.dictionaryLookup(engDict);
+        showAllWords(engDict);
+        DictionaryManagement.deleteWord(engDict);
+        showAllWords(engDict);
+        dictionarySearcher(engDict);
     }
 
+
     public static void main(String[] args) throws IOException {
-        dictionaryBasic();
         dictionaryAdvanced();
     }
 }
