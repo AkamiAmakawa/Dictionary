@@ -46,4 +46,24 @@ public class DictionaryManagement {
             }
         }
     }
+
+    /**
+     * Delete a word in the selected dictionary if existed.
+     */
+    public static void deleteWord(Dictionary dictionary) {
+        String wordToDel = wordScan.nextLine();
+        int group = Character.toUpperCase(wordToDel.charAt(0)) - 64;
+        if (group < 1 || group > 36) {
+            group = 0;
+        }
+        Word targetWord;
+        for (int i = 0; i < dictionary.size(group); i++) {
+            targetWord = dictionary.getWord(group, i);
+            if (targetWord.getWord_target().equalsIgnoreCase(wordToDel)) {
+                dictionary.removeWord(group, i);
+                return;
+            }
+        }
+        System.out.println("Word not found");
+    }
 }

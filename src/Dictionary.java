@@ -36,4 +36,8 @@ public class Dictionary {
     public int size(int group) {
         return words.get(group).size();
     }
+
+    public void removeWord(int group, int index) {
+        words.get(group).remove(index);
+    }
 }
