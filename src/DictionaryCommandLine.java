@@ -67,7 +67,7 @@ public class DictionaryCommandLine {
         for (int i = 0; i < dictionary.size(group); i++) {
             Matcher wordMatcher = targetPattern.matcher(dictionary.getWord(group, i).getWord_target());
             if (wordMatcher.matches()) {
-                System.out.println(dictionary.getWord(group,i).formattedWord());
+                System.out.println(dictionary.getWord(group, i).formattedWord());
             }
         }
     }
@@ -76,6 +76,7 @@ public class DictionaryCommandLine {
         Dictionary engDict = new Dictionary();
         DictionaryManagement.insertFromFile(engDict);
         showAllWords(engDict);
+        DictionaryManagement.dictionaryExportToFile(engDict,"exportedDict.txt");
         DictionaryManagement.deleteWord(engDict);
         showAllWords(engDict);
         dictionarySearcher(engDict);

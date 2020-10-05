@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +31,8 @@ public class DictionaryManagement {
      * @throws IOException when file not found
      */
     public static void insertFromFile(Dictionary dictionary) throws IOException {
-        BufferedReader fileReader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/data/dictionaries.txt"));
+        String path = System.getProperty("user.dir") + "/data/dictionaries.txt";
+        BufferedReader fileReader = new BufferedReader(new FileReader(path));
         Pattern wordPattern = Pattern.compile("(.+?)\t(.+?)");
         String line;
         while ((line = fileReader.readLine()) != null) {
@@ -65,5 +64,32 @@ public class DictionaryManagement {
             }
         }
         System.out.println("Word not found");
+    }
+
+    /**
+     * Write the dictionary data to a file, will create a new file if the selected path is not exist.
+     * @param dictionary   dictionary to write
+     * @param path path to file
+     */
+    public static void dictionaryExportToFile(Dictionary dictionary, String path){
+        File exportFile = new File(path);
+        try {
+            exportFile.createNewFile();
+        } catch (IOException e) {
+            System.out.println("An error occurred");
+            e.printStackTrace();
+        }
+        try {
+            FileWriter fileWriter = new FileWriter(exportFile);
+            for (int i = 0; i < 40; i++) {
+                for (int j = 0; j < dictionary.size(i); j++) {
+                    fileWriter.write(dictionary.getWord(i, j).formattedWord() + "\n");
+                }
+            }
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred");
+            e.printStackTrace();
+        }
     }
 }
