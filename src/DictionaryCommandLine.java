@@ -1,8 +1,5 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class DictionaryCommandLine {
     /**
@@ -21,9 +18,7 @@ public class DictionaryCommandLine {
         }
     }
 
-    public static void dictionaryLookup(Dictionary dictionary) {
-        Scanner scanInput = new Scanner(System.in);
-        String lookupWord = scanInput.nextLine();
+    public static void dictionaryLookup(Dictionary dictionary, String lookupWord) {
         int lookupIndex = Character.toUpperCase(lookupWord.charAt(0)) - 64;
         if (lookupIndex < 1 || lookupIndex > 36) {
             lookupIndex = 0;
@@ -52,34 +47,14 @@ public class DictionaryCommandLine {
         DictionaryCommandLine.showAllWords(engDict);
     }
 
-    public static void dictionarySearcher(Dictionary dictionary) {
-        Scanner wordScan = new Scanner(System.in);
-        String targetWord = wordScan.nextLine();
-        int group = Character.toUpperCase(targetWord.charAt(0)) - 64;
-        if (group < 1 || group > 36) {
-            group = 0;
-        }
-
-        //Create pattern
-        targetWord += ".+?";
-        Pattern targetPattern = Pattern.compile((targetWord), Pattern.CASE_INSENSITIVE);
-
-        for (int i = 0; i < dictionary.size(group); i++) {
-            Matcher wordMatcher = targetPattern.matcher(dictionary.getWord(group, i).getWord_target());
-            if (wordMatcher.matches()) {
-                System.out.println(dictionary.getWord(group, i).formattedWord());
-            }
-        }
-    }
 
     public static void dictionaryAdvanced() throws IOException {
         Dictionary engDict = new Dictionary();
         DictionaryManagement.insertFromFile(engDict);
         showAllWords(engDict);
-        DictionaryManagement.dictionaryExportToFile(engDict,"exportedDict.txt");
+        DictionaryManagement.dictionaryExportToFile(engDict, "exportedDict.txt");
         DictionaryManagement.deleteWord(engDict);
         showAllWords(engDict);
-        dictionarySearcher(engDict);
     }
 
 

@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,10 +69,11 @@ public class DictionaryManagement {
 
     /**
      * Write the dictionary data to a file, will create a new file if the selected path is not exist.
-     * @param dictionary   dictionary to write
-     * @param path path to file
+     *
+     * @param dictionary dictionary to write
+     * @param path       path to file
      */
-    public static void dictionaryExportToFile(Dictionary dictionary, String path){
+    public static void dictionaryExportToFile(Dictionary dictionary, String path) {
         File exportFile = new File(path);
         try {
             exportFile.createNewFile();
@@ -91,5 +93,33 @@ public class DictionaryManagement {
             System.out.println("An error occurred");
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<Word> dictionarySearcher(Dictionary dictionary, String targetWord, int maxWord) {
+        ArrayList<Word> resultWord = new ArrayList<>();
+        if (targetWord.equals("")) {
+            for(int i = 0; i < 40; i++){
+                for (int j = 0; j < dictionary.size(i) && maxWord != 0; j++){
+                    resultWord.add(dictionary.getWord(i,j));
+                    maxWord--;
+                }
+            }
+            return resultWord;
+        }
+            int group = group = Character.toUpperCase(targetWord.charAt(0)) - 64;
+            if (group < 1 || group > 36) {
+                group = 0;
+            }
+        //Create pattern
+        targetWord += ".*?";
+        Pattern targetPattern = Pattern.compile((targetWord), Pattern.CASE_INSENSITIVE);
+        for (int i = 0; i < dictionary.size(group) && maxWord != 0; i++) {
+            Matcher wordMatcher = targetPattern.matcher(dictionary.getWord(group, i).getWord_target());
+            if (wordMatcher.matches()) {
+                resultWord.add(dictionary.getWord(group, i));
+                maxWord--;
+            }
+        }
+        return resultWord;
     }
 }
