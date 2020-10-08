@@ -5,6 +5,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,7 +19,7 @@ public class Controller implements Initializable {
     @FXML
     private VBox wordBox;
     @FXML
-    private TextArea definitionBox;
+    private WebView definitionBox;
     @FXML
     private TextField wordSearcher;
 
@@ -29,7 +30,7 @@ public class Controller implements Initializable {
     private void runWordSearcher() {
         //clear the box for new display
         wordBox.getChildren().clear();
-        definitionBox.clear();
+        definitionBox.getEngine().loadContent("");
         //selected is for getting the first element selected by default
         boolean selected = true;
         ArrayList<Word> searchResult
@@ -47,7 +48,7 @@ public class Controller implements Initializable {
     }
 
     private void showDefinition(String definition) {
-        this.definitionBox.setText(definition);
+        this.definitionBox.getEngine().loadContent(definition);
     }
 
     /**

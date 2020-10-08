@@ -32,9 +32,9 @@ public class DictionaryManagement {
      * @throws IOException when file not found
      */
     public static void insertFromFile(Dictionary dictionary) throws IOException {
-        String path = System.getProperty("user.dir") + "/data/dictionaries.txt";
+        String path = System.getProperty("user.dir") + "/data/E_V.txt";
         BufferedReader fileReader = new BufferedReader(new FileReader(path));
-        Pattern wordPattern = Pattern.compile("(.+?)\t(.+?)");
+        Pattern wordPattern = Pattern.compile("(.+?)(<html>.+?</html>)");
         String line;
         while ((line = fileReader.readLine()) != null) {
             Matcher wordMatcher = wordPattern.matcher(line);
