@@ -32,6 +32,9 @@ public class Dictionary {
     }
 
     public int size(char group) {
+        if (!words.containsKey(group)) {
+            return 0;
+        }
         return words.get(group).size();
     }
 
@@ -41,5 +44,9 @@ public class Dictionary {
 
     public void removeWord(char group, int index) {
         words.get(group).remove(index);
+    }
+
+    boolean containKey(char key) {
+        return words.containsKey(key);
     }
 }

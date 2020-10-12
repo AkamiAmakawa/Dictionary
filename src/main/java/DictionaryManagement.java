@@ -1,3 +1,5 @@
+import org.apache.commons.text.similarity.LevenshteinDistance;
+
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -152,5 +154,30 @@ public class DictionaryManagement {
             }
         }
         return resultWord;
+    }
+
+    public static ArrayList<Word> suggestWord(Dictionary dictionary, String word, int limit) {
+        ArrayList<Word> result = new ArrayList<>();
+        Set<Character> keys = dictionary.getKey();
+        LevenshteinDistance distance = new LevenshteinDistance();
+        loop:
+        for (char key : keys) {
+            for (int i = 0; i < dictionary.size(key); i++) {
+                if (!word.equals("")) {
+                    if (!dictionary.containKey(Character.toUpperCase(word.charAt(0)))) {
+                        break;
+                    }
+                }
+                double check = distance.apply(dictionary.getWord(key, i).getWord_target(), word);
+                if (check < 3) {
+                    result.add(dictionary.getWord(key, i));
+                    limit--;
+                    if (limit <= 0) {
+                        break loop;
+                    }
+                }
+            }
+        }
+        return result;
     }
 }

@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Controller implements Initializable {
     private static final int maxWord = 20;
@@ -38,9 +40,18 @@ public class Controller implements Initializable {
         definitionBox.getEngine().loadContent("");
         //selected is for getting the first element selected by default
         boolean selected = true;
+        String target = wordSearcher.getText().replaceAll("\\s+", " ");
+        Pattern noSpace = Pattern.compile(" ?([^ ].*?[^ ]) ?");
+        Matcher noSpaceMatch = noSpace.matcher(target);
+        if (noSpaceMatch.matches()) {
+            target = noSpaceMatch.group(0);
+        }
         ArrayList<Word> searchResult
-                //         = DictionaryManagement.dictionarySearcher(engDict,wordSearcher.getText(),20);
-                = dataBase.dictionarySearcher(wordSearcher.getText(), maxWord);
+                = DictionaryManagement.dictionarySearcher(engDict, target, maxWord);
+        //          = dataBase.dictionarySearcher(wordSearcher.getText(), maxWord);
+        if (searchResult.size() <= 0) {
+            searchResult = DictionaryManagement.suggestWord(engDict, wordSearcher.getText(), maxWord);
+        }
         for (int i = 0; i < searchResult.size(); i++) {
             RadioButton temp = createWord(searchResult.get(i));
             //select the first word

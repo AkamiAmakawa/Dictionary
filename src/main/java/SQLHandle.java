@@ -64,6 +64,15 @@ public class SQLHandle {
             index = "Spc";
         } else {
             index = "idx" + Character.toUpperCase(targetWord.charAt(0));
+            try {
+                DatabaseMetaData metaData = connection.getMetaData();
+                ResultSet tbExist = metaData.getTables(null, null, index, new String[]{"Table"});
+                if (!tbExist.next()) {
+                    index = "displayTable";
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         ArrayList<Word> result = new ArrayList<>();
         try {
