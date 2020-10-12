@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +40,7 @@ public class DictionaryManagement {
         URL dataURL = DictionaryManagement.class.getClassLoader().getResource("data/E_V.txt");
         File data = new File(dataURL.toURI());
         BufferedReader fileReader = new BufferedReader(new FileReader(data));
-        Pattern wordPattern = Pattern.compile("(.+?)(<html>.+?</html>)");
+        Pattern wordPattern = Pattern.compile("(.+?)<\\|>(<html>.+?</html>)");
         String line;
         while ((line = fileReader.readLine()) != null) {
             Matcher wordMatcher = wordPattern.matcher(line);
@@ -71,10 +72,7 @@ public class DictionaryManagement {
      */
     public static void deleteWord(Dictionary dictionary) {
         String wordToDel = wordScan.nextLine();
-        int group = Character.toUpperCase(wordToDel.charAt(0)) - 64;
-        if (group < 1 || group > 36) {
-            group = 0;
-        }
+        char group = Character.toUpperCase(wordToDel.charAt(0));
         Word targetWord;
         for (int i = 0; i < dictionary.size(group); i++) {
             targetWord = dictionary.getWord(group, i);
@@ -103,15 +101,16 @@ public class DictionaryManagement {
         try {
             int linePerCommand = 0;
             FileWriter fileWriter = new FileWriter(exportFile);
-            for (int i = 0; i < 40; i++) {
-                for (int j = 0; j < dictionary.size(i); j++) {
+            Set<Character> keys = dictionary.getKey();
+            for (char key : keys) {
+                for (int j = 0; j < dictionary.size(key); j++) {
                     if (linePerCommand <= 0) {
                         fileWriter.write("insert into dictionarywcs.E_V(word,wordDefinition) values " + "\n");
                         linePerCommand = 50;
                     }
                     String temp = String.format("(\"%s\",\"%s\")",
-                            dictionary.getWord(i, j).getWord_target(),
-                            dictionary.getWord(i, j).getWord_explain());
+                            dictionary.getWord(key, j).getWord_target(),
+                            dictionary.getWord(key, j).getWord_explain());
                     fileWriter.write(temp);
                     if (linePerCommand > 1) {
                         fileWriter.write(",\n");
@@ -132,18 +131,16 @@ public class DictionaryManagement {
     public static ArrayList<Word> dictionarySearcher(Dictionary dictionary, String targetWord, int maxWord) {
         ArrayList<Word> resultWord = new ArrayList<>();
         if (targetWord.equals("")) {
-            for (int i = 0; i < 40; i++) {
-                for (int j = 0; j < dictionary.size(i) && maxWord != 0; j++) {
-                    resultWord.add(dictionary.getWord(i, j));
+            Set<Character> keys = dictionary.getKey();
+            for (char key : keys) {
+                for (int j = 0; j < dictionary.size(key) && maxWord != 0; j++) {
+                    resultWord.add(dictionary.getWord(key, j));
                     maxWord--;
                 }
             }
             return resultWord;
         }
-        int group = group = Character.toUpperCase(targetWord.charAt(0)) - 64;
-        if (group < 1 || group > 36) {
-            group = 0;
-        }
+        char group = Character.toUpperCase(targetWord.charAt(0));
         //Create pattern
         targetWord += ".*?";
         Pattern targetPattern = Pattern.compile((targetWord), Pattern.CASE_INSENSITIVE);

@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class DictionaryCommandLine {
     /**
@@ -11,20 +12,17 @@ public class DictionaryCommandLine {
     public static void showAllWords(Dictionary dictionary) {
         System.out.format("%-8s %-30s %s \n", "No", "| English", "| Vietnamese");
         int index = 0;
-        for (int i = 0; i < 40; i++) {
-            for (int j = 0; j < dictionary.size(i); j++) {
-                System.out.format("%-8d %s \n", index + 1, dictionary.getWord(i, j).formattedWord());
+        Set<Character> keys = dictionary.getKey();
+        for (Character key : keys) {
+            for (int j = 0; j < dictionary.size(key); j++) {
+                System.out.format("%-8d %s \n", index + 1, dictionary.getWord(key, j).formattedWord());
                 index++;
             }
         }
     }
 
     public static void dictionaryLookup(Dictionary dictionary, String lookupWord) {
-        int lookupIndex = Character.toUpperCase(lookupWord.charAt(0)) - 64;
-        if (lookupIndex < 1 || lookupIndex > 36) {
-            lookupIndex = 0;
-        }
-
+        char lookupIndex = Character.toUpperCase(lookupWord.charAt(0));
         int firstCharLibSize = dictionary.size(lookupIndex);
         ArrayList<Word> charLib = dictionary.getGroup(lookupIndex);
 

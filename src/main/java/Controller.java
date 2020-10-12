@@ -6,6 +6,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -23,6 +25,10 @@ public class Controller implements Initializable {
     private SQLHandle dataBase;
 
     @FXML
+    private void startWordSearcher() {
+        runWordSearcher();
+    }
+
     /**
      * Run dictionarySearcher method everytime a key is release
      */
@@ -33,6 +39,7 @@ public class Controller implements Initializable {
         //selected is for getting the first element selected by default
         boolean selected = true;
         ArrayList<Word> searchResult
+                //         = DictionaryManagement.dictionarySearcher(engDict,wordSearcher.getText(),20);
                 = dataBase.dictionarySearcher(wordSearcher.getText(), maxWord);
         for (int i = 0; i < searchResult.size(); i++) {
             RadioButton temp = createWord(searchResult.get(i));
@@ -56,7 +63,6 @@ public class Controller implements Initializable {
     private RadioButton createWord(Word word) {
         RadioButton wordSelect = new RadioButton();
         wordSelect.getStyleClass().remove("radio-button");
-        wordSelect.getStyleClass().add("toggle-button");
         wordSelect.setPrefWidth(wordBox.getPrefWidth());
         wordSelect.setText(word.getWord_target());
         wordSelect.setOnAction(a -> showDefinition(word.getWord_explain()));
@@ -66,19 +72,18 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-/*        try {
+        try {
             DictionaryManagement.insertFromFile(engDict);
-            runWordSearcher();
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
 
- */
+
         try {
             dataBase = new SQLHandle();
-            runWordSearcher();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        runWordSearcher();
     }
 }

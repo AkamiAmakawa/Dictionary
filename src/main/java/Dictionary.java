@@ -1,12 +1,11 @@
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class Dictionary {
-    private final ArrayList<ArrayList<Word>> words = new ArrayList<>();
+    private final TreeMap<Character, ArrayList<Word>> words = new TreeMap<>();
 
     public Dictionary() {
-        for (int i = 0; i < 40; i++) {
-            words.add(new ArrayList<>());
-        }
     }
 
     /**
@@ -17,27 +16,30 @@ public class Dictionary {
      * @param word word to add
      */
     public void addWord(Word word) {
-        int index = Character.toUpperCase(word.getWord_target().charAt(0)) - 64;
-        if (index < 1 || index > 36) {
-            words.get(0).add(word);
-        } else {
-            words.get(index).add(word);
+        char index = Character.toUpperCase(word.getWord_target().charAt(0));
+        if (words.get(index) == null) {
+            words.put(index, new ArrayList<>());
         }
+        words.get(index).add(word);
     }
 
-    public Word getWord(int group, int index) {
+    public Word getWord(char group, int index) {
         return words.get(group).get(index);
     }
 
-    public ArrayList<Word> getGroup(int group) {
+    public ArrayList<Word> getGroup(Character group) {
         return words.get(group);
     }
 
-    public int size(int group) {
+    public int size(char group) {
         return words.get(group).size();
     }
 
-    public void removeWord(int group, int index) {
+    public Set<Character> getKey() {
+        return words.keySet();
+    }
+
+    public void removeWord(char group, int index) {
         words.get(group).remove(index);
     }
 }
