@@ -22,16 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="abd15711-3264-4909-8731-58f44df2fb07" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/AddController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ChangeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/DeleteController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SentenceController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/DictionaryInterface.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/DictionaryInterface.fxml" afterDir="false" />
-    </list>
+    <list default="true" id="abd15711-3264-4909-8731-58f44df2fb07" name="Default Changelist" comment="Update JavaFx ^^" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -88,6 +79,14 @@
       <option name="presentableId" value="Default" />
       <updated>1602681298087</updated>
     </task>
+    <task id="LOCAL-00001" summary="Update JavaFx ^^">
+      <created>1602950559549</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1602950559549</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -101,6 +100,10 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update JavaFx ^^" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update JavaFx ^^" />
   </component>
   <component name="WindowStateProjectService">
     <state x="574" y="118" key="#com.intellij.ide.util.MemberChooser" timestamp="1602779125782">
@@ -159,10 +162,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1602681328718" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1602950402554">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1602950599895">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1602950402554" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1602950599895" />
     <state x="209" y="32" key="new project wizard" timestamp="1602869188096">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
