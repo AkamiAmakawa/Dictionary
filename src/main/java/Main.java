@@ -15,7 +15,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("DictionaryInterface.fxml"));
         Pane root = loader.load();
         primaryStage.setTitle("Dictionary");
-        primaryStage.setScene(new Scene(root, 1280, 720));
+        primaryStage.setScene(new Scene(root, 405, 720));
         primaryStage.show();
     }
 }
