@@ -1,3 +1,6 @@
+#Ignore .idea
 /.idea/
-/taget/
+
+#Ignore taget
+/target/
 
