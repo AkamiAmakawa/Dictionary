@@ -1,7 +1,7 @@
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -12,10 +12,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("DictionaryInterface.fxml"));
-        Pane root = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("StartingScreen.fxml"));
+        Parent root = loader.load();
         primaryStage.setTitle("Dictionary");
-        primaryStage.setScene(new Scene(root, 405, 720));
+        Scene mainScene = new Scene(root, 600, 400);
+        primaryStage.setScene(mainScene);
         primaryStage.show();
     }
 }
