@@ -3,7 +3,7 @@ package MainProgram;
 public class Word {
     private String word_target;
     private String word_explain;
-
+    private long dbID = -1;
     public String getWord_target() {
         return word_target;
     }
@@ -18,6 +18,14 @@ public class Word {
 
     public void setWord_explain(String word_explain) {
         this.word_explain = word_explain;
+    }
+
+    public long getDbID() {
+        return dbID;
+    }
+
+    public void setDbID(Long dbID) {
+        this.dbID = dbID;
     }
 
     /**

@@ -168,7 +168,7 @@ public class Controller implements Initializable {
             confirm.setText("Yes");
             confirm.setOnAction(e -> {
                 if (Online) {
-                    dataBase.deleteWord(target.getWord_target());
+                    dataBase.deleteWord(target.getDbID());
                 }
                 engDict.getGroup(Character.toUpperCase(target.getWord_target().charAt(0))).remove(target);
                 DictionaryManagement.dictionaryUpdate(engDict);

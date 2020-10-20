@@ -45,10 +45,11 @@ public class AddController implements Initializable {
             Word temp = new Word();
             temp.setWord_target(wordField.getText());
             temp.setWord_explain(definitionBox.getHtmlText());
-            engDict.addWord(temp);
             if (Online) {
                 dataBase.addWord(temp);
+                temp.setDbID(dataBase.getCurrentID());
             }
+            engDict.addWord(temp);
             DictionaryManagement.dictionaryUpdate(engDict);
             Stage currentStage = (Stage) wordField.getScene().getWindow();
             currentStage.close();

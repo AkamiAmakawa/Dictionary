@@ -63,6 +63,7 @@ public class DictionaryManagement {
         try {
             while (data.next()) {
                 Word temp = new Word();
+                temp.setDbID(data.getLong("id"));
                 temp.setWord_target(data.getString("word"));
                 temp.setWord_explain(data.getString("wordDefinition"));
                 dictionary.addWord(temp);

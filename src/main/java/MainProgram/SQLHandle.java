@@ -52,7 +52,7 @@ public class SQLHandle {
 
     public ResultSet getData() {
         try {
-            return statement.executeQuery("select word, wordDefinition from E_V;");
+            return statement.executeQuery("select id, word, wordDefinition from E_V;");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -98,12 +98,12 @@ public class SQLHandle {
         return result;
     }
 
-    public void changeWord(String word, String meaning) {
-        String querry = "update E_V set wordDefinition = ? where word = ?;";
+    public void changeWord(long id, String meaning) {
+        String querry = "update E_V set wordDefinition = ? where id = ?;";
         try {
             preparedStatement = connection.prepareStatement(querry);
             preparedStatement.setString(1, meaning);
-            preparedStatement.setString(2, word);
+            preparedStatement.setLong(2, id);
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -123,15 +123,31 @@ public class SQLHandle {
         }
     }
 
-    public void deleteWord(String target) {
-        String querry = "delete from E_V where word = ?";
+    public void deleteWord(long id) {
+        String querry = "delete from E_V where id = ?";
         try {
             preparedStatement = connection.prepareStatement(querry);
-            preparedStatement.setString(1, target);
+            preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+    public long getCurrentID(){
+        long id = 0;
+        String query = "SELECT `AUTO_INCREMENT`\n" +
+                "FROM  INFORMATION_SCHEMA.TABLES\n" +
+                "WHERE TABLE_SCHEMA = 'dictionarywcs'\n" +
+                "AND   TABLE_NAME   = 'E_V';";
+        try {
+            ResultSet result = statement.executeQuery(query);
+            result.next();
+            id = result.getLong("AUTO_INCREMENT");
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return id;
     }
 
 
