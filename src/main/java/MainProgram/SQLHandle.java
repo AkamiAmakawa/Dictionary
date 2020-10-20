@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public class SQLHandle {
-    private final String driverName = "com.mysql.cj.jdbc.Driver";
-    private final String URL = "jdbc:mysql://db4free.net:3306/dictionarywcs";
-    private final String username = "dictuser";
-    private final String password = "dictuser";
     private Connection connection;
     private Statement statement;
     private PreparedStatement preparedStatement;
 
     public SQLHandle() throws ClassNotFoundException {
+        String driverName = "com.mysql.cj.jdbc.Driver";
         Class.forName(driverName);
         try {
+            String URL = "jdbc:mysql://db4free.net:3306/dictionarywcs";
+            String username = "dictuser";
+            String password = "dictuser";
             connection = DriverManager.getConnection(URL, username, password);
             statement = connection.createStatement();
         } catch (SQLException throwables) {
@@ -60,7 +60,7 @@ public class SQLHandle {
     }
 
     public ArrayList<Word> dictionarySearcher(String targetWord, int limit) {
-        String index = "";
+        String index;
         if (targetWord.equals("")) {
             index = "displayTable";
         } else if (targetWord.charAt(0) == '-') {
@@ -112,7 +112,7 @@ public class SQLHandle {
     }
 
     public void addWord(Word word) {
-        String querry = "insert into E_V (word, wordDefinition) (?,?);";
+        String querry = "insert into E_V (word, wordDefinition) values (?,?);";
         try {
             preparedStatement = connection.prepareStatement(querry);
             preparedStatement.setString(1, word.getWord_target());

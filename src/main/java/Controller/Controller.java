@@ -14,11 +14,8 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -85,14 +82,14 @@ public class Controller implements Initializable {
         if (searchResult.size() <= 0) {
             searchResult = DictionaryManagement.suggestWord(engDict, wordSearcher.getText(), maxWord);
         }
-        for (int i = 0; i < searchResult.size(); i++) {
-            RadioButton temp = createWord(searchResult.get(i));
+        for (Word word : searchResult) {
+            RadioButton temp = createWord(word);
             //select the first word
             if (selected) {
                 temp.setSelected(true);
-                showDefinition(searchResult.get(i));
+                showDefinition(word);
                 selected = false;
-                currentWord = searchResult.get(i);
+                currentWord = word;
             }
             wordBox.getChildren().add(temp);
         }
@@ -119,30 +116,12 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            DictionaryManagement.insertFromFile(engDict);
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        if (StartController.Online) {
-            try {
-                dataBase = new SQLHandle();
-                ResultSet data = dataBase.getData();
-                DictionaryManagement.insertFromDB(engDict, data);
-                Online = true;
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
         runWordSearcher();
         Button Speak;
         {
             Image image = null;
             try (FileInputStream input = new FileInputStream("Speaker.png")) {
                 image = new Image(input);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -166,91 +145,69 @@ public class Controller implements Initializable {
         exitItem.setAccelerator(KeyCombination.keyCombination("Alt+F4"));
 
         // Thiết lập sự kiện khi người dùng chọn vào Exit.
-        exitItem.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                System.exit(0);
-            }
-        });
+        exitItem.setOnAction(event -> System.exit(0));
 
         fileMenu.getItems().addAll(exitItem);
 
-        addItem.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                String s = "AddWindow.fxml";
-                Window window = new Window();
-                try {
-                    window.createWindow("Add Word", s, 720, 640);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        addItem.setOnAction(event -> {
+            String s = "AddWindow.fxml";
+            Window window = new Window();
+            try {
+                window.createWindow("Add Word", s, 720, 640);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 
-        deleteItem.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                Window message = new Window();
-                Word target = currentWord;
-                MiscellaneousController.buttons.clear();
-                MiscellaneousController.msg = "Are you sure to remove the word " + target.getWord_target();
-                Button confirm = new Button();
-                confirm.setText("Yes");
-                confirm.setOnAction(e -> {
-                    if (Online) {
-                        dataBase.deleteWord(target.getWord_target());
-                    }
-                    engDict.getGroup(Character.toUpperCase(target.getWord_target().charAt(0))).remove(target);
-                    DictionaryManagement.dictionaryUpdate(engDict);
-                    Stage sToClose = (Stage) confirm.getScene().getWindow();
-                    sToClose.close();
-                    runWordSearcher();
-                });
-                Button cancel = new Button();
-                cancel.setText("No");
-                cancel.setOnAction(e -> {
-                    Stage sToClose = (Stage) cancel.getScene().getWindow();
-                    sToClose.close();
-                });
-                MiscellaneousController.buttons.add(confirm);
-                MiscellaneousController.buttons.add(cancel);
-                try {
-                    message.createWindow("Message", "ConfirmWindow.fxml", 625, 215);
-                } catch (IOException e) {
-                    e.printStackTrace();
+        deleteItem.setOnAction(event -> {
+            Window message = new Window();
+            Word target = currentWord;
+            MiscellaneousController.buttons.clear();
+            MiscellaneousController.msg = "Are you sure to remove the word " + target.getWord_target();
+            Button confirm = new Button();
+            confirm.setText("Yes");
+            confirm.setOnAction(e -> {
+                if (Online) {
+                    dataBase.deleteWord(target.getWord_target());
                 }
+                engDict.getGroup(Character.toUpperCase(target.getWord_target().charAt(0))).remove(target);
+                DictionaryManagement.dictionaryUpdate(engDict);
+                Stage sToClose = (Stage) confirm.getScene().getWindow();
+                sToClose.close();
+                runWordSearcher();
+            });
+            Button cancel = new Button();
+            cancel.setText("No");
+            cancel.setOnAction(e -> {
+                Stage sToClose = (Stage) cancel.getScene().getWindow();
+                sToClose.close();
+            });
+            MiscellaneousController.buttons.add(confirm);
+            MiscellaneousController.buttons.add(cancel);
+            try {
+                message.createWindow("Message", "ConfirmWindow.fxml", 625, 215);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 
-        EditItem.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                String s = "ChangeWindow.fxml";
-                Window window = new Window();
-                try {
-                    window.createWindow("Word Edit", s, 720, 640);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        EditItem.setOnAction(event -> {
+            String s = "ChangeWindow.fxml";
+            Window window = new Window();
+            try {
+                window.createWindow("Word Edit", s, 720, 640);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 
-        sentence.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                String s = "SentenceWindow.fxml";
-                Window window = new Window();
-                try {
-                    window.createWindow("Online Translator", s, 720, 640);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        sentence.setOnAction(event -> {
+            String s = "SentenceWindow.fxml";
+            Window window = new Window();
+            try {
+                window.createWindow("Online Translator", s, 720, 640);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }

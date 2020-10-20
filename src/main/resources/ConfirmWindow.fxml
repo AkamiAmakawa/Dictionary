@@ -8,6 +8,7 @@
             fx:controller="Controller.MiscellaneousController">
     <children>
         <Label fx:id="message" layoutX="57.0" layoutY="87.0" prefHeight="21.0" prefWidth="517.0" text="Message?"/>
-        <HBox fx:id="buttonArray" alignment="CENTER" layoutY="168.0" prefHeight="40.0" prefWidth="661.0"/>
+        <HBox fx:id="buttonArray" alignment="CENTER" layoutY="168.0" prefHeight="40.0" prefWidth="661.0"
+              spacing="100.0"/>
     </children>
 </AnchorPane>

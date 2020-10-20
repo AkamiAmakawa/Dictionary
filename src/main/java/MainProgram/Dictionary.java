@@ -19,9 +19,7 @@ public class Dictionary {
      */
     public void addWord(Word word) {
         char index = Character.toUpperCase(word.getWord_target().charAt(0));
-        if (words.get(index) == null) {
-            words.put(index, new ArrayList<>());
-        }
+        words.computeIfAbsent(index, k -> new ArrayList<>());
         words.get(index).add(word);
     }
 
@@ -50,5 +48,8 @@ public class Dictionary {
 
     boolean containKey(char key) {
         return words.containsKey(key);
+    }
+    public void clear(){
+        words.clear();
     }
 }

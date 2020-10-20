@@ -41,6 +41,7 @@ public class DictionaryManagement {
      * @throws IOException when file not found
      */
     public static void insertFromFile(Dictionary dictionary) throws IOException, URISyntaxException {
+        dictionary.clear();
         URL dataURL = DictionaryManagement.class.getClassLoader().getResource("data/E_V.txt");
         File data = new File(dataURL.toURI());
         BufferedReader fileReader = new BufferedReader(new FileReader(data));
@@ -58,6 +59,7 @@ public class DictionaryManagement {
     }
 
     public static void insertFromDB(Dictionary dictionary, ResultSet data) {
+        dictionary.clear();
         try {
             while (data.next()) {
                 Word temp = new Word();

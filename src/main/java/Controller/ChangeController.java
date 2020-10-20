@@ -14,11 +14,11 @@ import java.util.ResourceBundle;
 import static Controller.Controller.*;
 
 public class ChangeController implements Initializable {
+    private final Word target = currentWord;
     @FXML
     private HTMLEditor definitionEditBox;
     @FXML
     private TextField wordToEdit;
-    private final Word target = currentWord;
 
     @FXML
     private void runWordChange() {

@@ -21,8 +21,8 @@ public class MiscellaneousController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         message.setText(msg);
-        for (int i = 0; i < buttons.size(); i++) {
-            buttonArray.getChildren().add(buttons.get(i));
+        for (Button button : buttons) {
+            buttonArray.getChildren().add(button);
         }
     }
 }

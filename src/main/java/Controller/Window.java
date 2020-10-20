@@ -31,12 +31,7 @@ public class Window {
         primaryStage.setTitle("Dictionary");
         Scene mainScene = new Scene(root, 405, 720);
         mainScene.getStylesheets().add(getClass().getClassLoader().getResource("Style.css").toExternalForm());
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                Platform.exit();
-            }
-        });
+        primaryStage.setOnCloseRequest(event -> Platform.exit());
         primaryStage.setScene(mainScene);
         primaryStage.show();
     }
