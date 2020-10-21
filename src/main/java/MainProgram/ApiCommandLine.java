@@ -15,8 +15,6 @@ import java.io.IOException;
 public class ApiCommandLine {
 
     public static void Speak(String text) {
-        System.out.println(text);
-
         //Create a new Thread because JLayer is running on the current Thread and will make the application to lag
         Thread thread = new Thread(() -> {
             try {
@@ -27,10 +25,9 @@ public class ApiCommandLine {
                 AdvancedPlayer player = new AdvancedPlayer(synthesizer.getMP3Data(text));
                 player.play();
 
-                System.out.println("Successfully got back synthesizer data");
 
             } catch (IOException | JavaLayerException e) {
-
+                System.out.println("Unable to get synthesizer data");
                 e.printStackTrace(); //Print the exception ( we want to know , not hide below our finger , like many developers do...)
 
             }

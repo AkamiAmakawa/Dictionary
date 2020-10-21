@@ -4,6 +4,8 @@ import MainProgram.DictionaryManagement;
 import MainProgram.SQLHandle;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,11 +14,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.ResultSet;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class StartController {
+public class StartController{
     protected static Boolean Online = false;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     @FXML
@@ -72,8 +76,8 @@ public class StartController {
             executorService.shutdown();
             Window startWindow = new Window();
             startWindow.startWindow();
-            Stage sClose = (Stage) localButton.getScene().getWindow();
-            sClose.close();
+            Stage stage = (Stage) localButton.getScene().getWindow();
+            stage.close();
         });
         task.setOnFailed(event -> {
             indLoc.setImage(null);
@@ -87,6 +91,8 @@ public class StartController {
     private void loadData() {
         executorService.execute(createTask());
     }
-
+    public void closeService(){
+        executorService.shutdown();
+    }
 
 }

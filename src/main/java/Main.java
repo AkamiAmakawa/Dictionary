@@ -1,3 +1,4 @@
+import Controller.StartController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +15,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("StartingScreen.fxml"));
         Parent root = loader.load();
+        primaryStage.setOnCloseRequest(event -> {
+            ((StartController) loader.getController()).closeService();
+        });
         primaryStage.setTitle("Dictionary");
         Scene mainScene = new Scene(root, 600, 400);
         primaryStage.setScene(mainScene);

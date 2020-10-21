@@ -119,12 +119,7 @@ public class Controller implements Initializable {
         runWordSearcher();
         Button Speak;
         {
-            Image image = null;
-            try (FileInputStream input = new FileInputStream("Speaker.png")) {
-                image = new Image(input);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Image image = new Image(getClass().getClassLoader().getResource("Speaker.png").toExternalForm());
             ImageView imageView = new ImageView(image);
             imageView.fitHeightProperty();
             imageView.fitWidthProperty();
