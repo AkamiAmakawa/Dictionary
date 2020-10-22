@@ -4,15 +4,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/8.0.171" fx:controller="Controller.StartController">
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #00203FFF;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StartController">
     <children>
-        <Button fx:id="onlineButton" layoutX="35.0" layoutY="311.0" mnemonicParsing="false" onAction="#loadOnline"
-                text="Load Online Data"/>
-        <Button fx:id="localButton" layoutX="35.0" layoutY="256.0" mnemonicParsing="false" onAction="#loadLocal"
-                text="Load Local Data"/>
-        <ImageView fx:id="indLoc" fitHeight="55.0" fitWidth="57.0" layoutX="529.0" layoutY="337.0" pickOnBounds="true"
-                   preserveRatio="true"/>
-        <Text fx:id="msg" layoutX="35.0" layoutY="381.0" strokeType="OUTSIDE" strokeWidth="0.0"/>
+        <Button fx:id="onlineButton" layoutX="35.0" layoutY="311.0" mnemonicParsing="false" onAction="#loadOnline" text="Load Online Data" />
+        <Button fx:id="localButton" layoutX="35.0" layoutY="256.0" mnemonicParsing="false" onAction="#loadLocal" prefHeight="31.0" prefWidth="135.0" text="Load Local Data" />
+        <ImageView fx:id="indLoc" fitHeight="55.0" fitWidth="57.0" layoutX="529.0" layoutY="337.0" pickOnBounds="true" preserveRatio="true" />
+        <Text fx:id="msg" layoutX="35.0" layoutY="381.0" strokeType="OUTSIDE" strokeWidth="0.0" />
     </children>
 </AnchorPane>
