@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.web.HTMLEditor?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="654.0" style="-fx-background-color: #00203FFF;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddController">
+    <children>
+        <TextField fx:id="wordField" layoutX="53.0" layoutY="60.0" prefHeight="39.0" prefWidth="539.0" />
+        <Text layoutX="64.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+        <Text layoutX="64.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+        <Label layoutX="262.0" layoutY="29.0" text="Từ muốn thêm vào:" textFill="WHITE" />
+        <Label layoutX="278.0" layoutY="131.0" text="Nghĩa của từ:" textFill="WHITE" />
+        <Button fx:id="btAdd" layoutX="303.0" layoutY="468.0" mnemonicParsing="false" onAction="#addWord" text="Thêm" />
+        <HTMLEditor fx:id="definitionBox" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" layoutX="58.0" layoutY="175.0" prefHeight="276.0" prefWidth="539.0" />
+    </children>
+</AnchorPane>
