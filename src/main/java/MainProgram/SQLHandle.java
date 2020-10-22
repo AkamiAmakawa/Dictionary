@@ -9,7 +9,6 @@ import java.util.Set;
 
 public class SQLHandle {
     private Connection connection;
-    private Connection alternative;
     private Connection loadData;
     private Statement statement;
     private PreparedStatement preparedStatement;
@@ -22,7 +21,6 @@ public class SQLHandle {
             String username = "dictuser";
             String password = "dictuser";
             connection = DriverManager.getConnection(URL, username, password);
-            alternative = DriverManager.getConnection(URL, username, password);
             loadData = DriverManager.getConnection(URL, username, password);
             statement = connection.createStatement();
         } catch (SQLException throwables) {
@@ -74,8 +72,7 @@ public class SQLHandle {
                     " where word like '%s%s'\n" +
                     " order by word asc\n" +
                     " limit %d;", targetWord, "%", limit);
-            Statement search = alternative.createStatement();
-            ResultSet resultSet = search.executeQuery(searchCommand);
+            ResultSet resultSet = statement.executeQuery(searchCommand);
             while (resultSet.next()) {
                 Word temp = new Word();
                 temp.setDbID(resultSet.getLong("id"));

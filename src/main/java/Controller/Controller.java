@@ -209,8 +209,10 @@ public class Controller implements Initializable {
                 if (Online) {
                     dataBase.deleteWord(target.getDbID());
                 }
-                engDict.getGroup(Character.toUpperCase(target.getWord_target().charAt(0))).remove(target);
-                DictionaryManagement.dictionaryUpdate(engDict);
+                if(dbLoaded || !Online) {
+                    engDict.getGroup(Character.toUpperCase(target.getWord_target().charAt(0))).remove(target);
+                    DictionaryManagement.dictionaryUpdate(engDict);
+                }
                 Stage sToClose = (Stage) confirm.getScene().getWindow();
                 sToClose.close();
                 runWordSearcher();

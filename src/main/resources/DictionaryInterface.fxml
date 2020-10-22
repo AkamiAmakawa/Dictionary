@@ -52,13 +52,13 @@
             <Button fx:id="btSpeak" mnemonicParsing="false" prefHeight="31.0" prefWidth="38.0" GridPane.columnIndex="1" />
             <SplitPane dividerPositions="0.3323572474377745" orientation="VERTICAL" GridPane.columnSpan="2" GridPane.rowIndex="1">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="377.0">
                      <children>
-                        <ScrollPane prefHeight="203.0" prefWidth="373.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="203.0" prefWidth="373.0" style="-fx-fit-to-height: true; -fx-fit-to-width: true;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
-                              <AnchorPane prefHeight="358.0" prefWidth="350.0">
+                              <AnchorPane prefHeight="195.0" prefWidth="359.0">
                                  <children>
-                                    <VBox fx:id="wordBox" layoutX="1.0" layoutY="2.0" prefHeight="342.0" prefWidth="335.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="2.0" />
+                                    <VBox fx:id="wordBox" layoutX="1.0" layoutY="2.0" prefHeight="179.0" prefWidth="370.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="2.0" />
                                  </children>
                               </AnchorPane>
                            </content>
@@ -67,9 +67,9 @@
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                      <children>
-                        <ScrollPane prefHeight="412.0" prefWidth="373.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="412.0" prefWidth="373.0" style="-fx-fit-to-height: true; -fx-fit-to-width: true;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
-                              <WebView fx:id="definitionBox" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="358.0" />
+                              <WebView fx:id="definitionBox" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="378.0" />
                            </content>
                         </ScrollPane>
                      </children>
