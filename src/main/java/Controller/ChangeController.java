@@ -27,7 +27,9 @@ public class ChangeController implements Initializable {
         if (Online) {
             Controller.dataBase.changeWord(target.getDbID(), meaning);
         }
-        DictionaryManagement.dictionaryUpdate(engDict);
+        if(dbLoaded) {
+            DictionaryManagement.dictionaryUpdate(engDict);
+        }
         Stage sClose = (Stage) wordToEdit.getScene().getWindow();
         sClose.close();
     }

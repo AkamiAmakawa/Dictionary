@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class Window {
             Platform.exit();
             System.exit(0);
         });
+        Image icon = new Image(getClass().getClassLoader().getResource("translate.png").toExternalForm());
+        primaryStage.getIcons().add(icon);
         primaryStage.setScene(mainScene);
         primaryStage.show();
     }

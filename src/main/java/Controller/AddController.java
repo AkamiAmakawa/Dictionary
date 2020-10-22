@@ -50,7 +50,9 @@ public class AddController implements Initializable {
                 temp.setDbID(dataBase.getCurrentID());
             }
             engDict.addWord(temp);
-            DictionaryManagement.dictionaryUpdate(engDict);
+            if(dbLoaded) {
+                DictionaryManagement.dictionaryUpdate(engDict);
+            }
             Stage currentStage = (Stage) wordField.getScene().getWindow();
             currentStage.close();
         }

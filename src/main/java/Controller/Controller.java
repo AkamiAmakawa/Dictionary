@@ -11,14 +11,13 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,7 +29,7 @@ public class Controller implements Initializable {
     protected static boolean Online = false;
     protected static boolean dbLoaded = false;
     private final ToggleGroup displayWord = new ToggleGroup();
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
     @FXML
     private VBox wordBox;
     @FXML
@@ -110,6 +109,7 @@ public class Controller implements Initializable {
             searchResult = DictionaryManagement.dictionarySearcher(engDict, target, maxWord);
             displayResult(searchResult);
         } else {
+            executorService.getQueue().clear();
             executorService.execute(createSearchTask());
         }
     }
