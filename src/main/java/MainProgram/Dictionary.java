@@ -49,7 +49,8 @@ public class Dictionary {
     boolean containKey(char key) {
         return words.containsKey(key);
     }
-    public void clear(){
+
+    public void clear() {
         words.clear();
     }
 }

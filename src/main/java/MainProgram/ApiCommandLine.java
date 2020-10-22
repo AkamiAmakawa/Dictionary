@@ -41,6 +41,9 @@ public class ApiCommandLine {
     }
 
     public static String onlineTranslator(String text) {
+        if (text.equals("")) {
+            return "";
+        }
         String result = "";
         try {
             result = GoogleTranslate.translate("vi", text);

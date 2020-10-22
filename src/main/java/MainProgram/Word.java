@@ -4,6 +4,7 @@ public class Word {
     private String word_target;
     private String word_explain;
     private long dbID = -1;
+
     public String getWord_target() {
         return word_target;
     }

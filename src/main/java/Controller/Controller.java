@@ -1,8 +1,7 @@
 package Controller;
 
 import MainProgram.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -13,11 +12,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,7 +28,9 @@ public class Controller implements Initializable {
     protected static Word currentWord = new Word();
     protected static SQLHandle dataBase;
     protected static boolean Online = false;
+    protected static boolean dbLoaded = false;
     private final ToggleGroup displayWord = new ToggleGroup();
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     @FXML
     private VBox wordBox;
     @FXML
@@ -61,25 +64,63 @@ public class Controller implements Initializable {
         runWordSearcher();
     }
 
+    private Task<ArrayList<Word>> createSearchTask() {
+        Task<ArrayList<Word>> task = new Task<ArrayList<Word>>() {
+            @Override
+            protected ArrayList<Word> call() {
+                try {
+                    return dataBase.dictionarySearcher(wordSearcher.getText(), maxWord);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
+        task.setOnSucceeded(event -> displayResult(task.getValue()));
+        return task;
+    }
+
+    private Task<Void> loadData() {
+
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() {
+                ResultSet data = dataBase.getData();
+                DictionaryManagement.insertFromDB(Controller.engDict, data);
+                return null;
+            }
+        };
+        task.setOnSucceeded(event -> dbLoaded = true);
+        task.setOnFailed(event -> System.out.println("Failed"));
+        return task;
+    }
+
     /**
      * Run dictionarySearcher method everytime a key is release
      */
     private void runWordSearcher() {
-        //clear the box for new display
-        wordBox.getChildren().clear();
-        definitionBox.getEngine().loadContent("");
-        //selected is for getting the first element selected by default
-        boolean selected = true;
+        ArrayList<Word> searchResult = new ArrayList<>();
         String target = wordSearcher.getText().replaceAll("\\s+", " ");
         Pattern noSpace = Pattern.compile(" ?([^ ].*?[^ ]) ?");
         Matcher noSpaceMatch = noSpace.matcher(target);
         if (noSpaceMatch.matches()) {
             target = noSpaceMatch.group(0);
         }
-        ArrayList<Word> searchResult
-                = DictionaryManagement.dictionarySearcher(engDict, target, maxWord);
-        //          = dataBase.dictionarySearcher(wordSearcher.getText(), maxWord);
-        if (searchResult.size() <= 0) {
+        if (dbLoaded || !Online) {
+            searchResult = DictionaryManagement.dictionarySearcher(engDict, target, maxWord);
+            displayResult(searchResult);
+        } else {
+            executorService.execute(createSearchTask());
+        }
+    }
+
+    private void displayResult(ArrayList<Word> searchResult) {
+        //clear the box for new display
+        wordBox.getChildren().clear();
+        definitionBox.getEngine().loadContent("");
+        //selected is for getting the first element selected by default
+        boolean selected = true;
+        if (searchResult.size() <= 0 && (!Online || dbLoaded)) {
             searchResult = DictionaryManagement.suggestWord(engDict, wordSearcher.getText(), maxWord);
         }
         for (Word word : searchResult) {
@@ -116,8 +157,12 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if (Online) {
+            Thread loadData = new Thread(loadData());
+            loadData.setDaemon(true);
+            loadData.start();
+        }
         runWordSearcher();
-        Button Speak;
         {
             Image image = new Image(getClass().getClassLoader().getResource("Speaker.png").toExternalForm());
             ImageView imageView = new ImageView(image);
@@ -130,7 +175,6 @@ public class Controller implements Initializable {
         }
 
         btSpeak.setOnMouseClicked(event -> {
-            ApiCommandLine speak = new ApiCommandLine();
             ApiCommandLine.Speak(currentWord.getWord_target());
         });
 
@@ -148,7 +192,7 @@ public class Controller implements Initializable {
             String s = "AddWindow.fxml";
             Window window = new Window();
             try {
-                window.createWindow("Add Word", s, 720, 640);
+                window.createWindow("Add Word", s, 654, 547);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -190,7 +234,7 @@ public class Controller implements Initializable {
             String s = "ChangeWindow.fxml";
             Window window = new Window();
             try {
-                window.createWindow("Word Edit", s, 720, 640);
+                window.createWindow("Word Edit", s, 654, 547);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -200,10 +244,11 @@ public class Controller implements Initializable {
             String s = "SentenceWindow.fxml";
             Window window = new Window();
             try {
-                window.createWindow("Online Translator", s, 720, 640);
+                window.createWindow("Online Translator", s, 654, 547);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
 }
+

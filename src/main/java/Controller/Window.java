@@ -1,12 +1,10 @@
 package Controller;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -31,7 +29,10 @@ public class Window {
         primaryStage.setTitle("Dictionary");
         Scene mainScene = new Scene(root, 405, 720);
         mainScene.getStylesheets().add(getClass().getClassLoader().getResource("Style.css").toExternalForm());
-        primaryStage.setOnCloseRequest(event -> Platform.exit());
+        primaryStage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
         primaryStage.setScene(mainScene);
         primaryStage.show();
     }

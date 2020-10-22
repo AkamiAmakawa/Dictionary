@@ -2,6 +2,7 @@
 .wordButton:hover {
 	-fx-border-color: blue;
 }
+
 .wordButton:selected {
 	-fx-border-color: blue;
 	-fx-background-color: gray;

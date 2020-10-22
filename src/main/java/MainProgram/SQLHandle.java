@@ -9,6 +9,8 @@ import java.util.Set;
 
 public class SQLHandle {
     private Connection connection;
+    private Connection alternative;
+    private Connection loadData;
     private Statement statement;
     private PreparedStatement preparedStatement;
 
@@ -20,6 +22,8 @@ public class SQLHandle {
             String username = "dictuser";
             String password = "dictuser";
             connection = DriverManager.getConnection(URL, username, password);
+            alternative = DriverManager.getConnection(URL, username, password);
+            loadData = DriverManager.getConnection(URL, username, password);
             statement = connection.createStatement();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -52,7 +56,8 @@ public class SQLHandle {
 
     public ResultSet getData() {
         try {
-            return statement.executeQuery("select id, word, wordDefinition from E_V;");
+            Statement load = loadData.createStatement();
+            return load.executeQuery("select id, word, wordDefinition from E_V;");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -60,38 +65,25 @@ public class SQLHandle {
     }
 
     public ArrayList<Word> dictionarySearcher(String targetWord, int limit) {
-        String index;
-        if (targetWord.equals("")) {
-            index = "displayTable";
-        } else if (targetWord.charAt(0) == '-') {
-            index = "Spc";
-        } else {
-            index = "idx" + Character.toUpperCase(targetWord.charAt(0));
-            try {
-                DatabaseMetaData metaData = connection.getMetaData();
-                ResultSet tbExist = metaData.getTables(null, null, index, new String[]{"Table"});
-                if (!tbExist.next()) {
-                    index = "displayTable";
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
+
         ArrayList<Word> result = new ArrayList<>();
         try {
             String searchCommand = String.format("select id,word,wordDefinition\n" +
                     " from\n" +
-                    "%s\n" +
+                    "E_V\n" +
                     " where word like '%s%s'\n" +
                     " order by word asc\n" +
-                    " limit %d;", index, targetWord, "%", limit);
-            ResultSet resultSet = statement.executeQuery(searchCommand);
+                    " limit %d;", targetWord, "%", limit);
+            Statement search = alternative.createStatement();
+            ResultSet resultSet = search.executeQuery(searchCommand);
             while (resultSet.next()) {
                 Word temp = new Word();
+                temp.setDbID(resultSet.getLong("id"));
                 temp.setWord_target(resultSet.getString("word"));
                 temp.setWord_explain(resultSet.getString("wordDefinition"));
                 result.add(temp);
             }
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -133,7 +125,8 @@ public class SQLHandle {
             throwables.printStackTrace();
         }
     }
-    public long getCurrentID(){
+
+    public long getCurrentID() {
         long id = 0;
         String query = "SELECT `AUTO_INCREMENT`\n" +
                 "FROM  INFORMATION_SCHEMA.TABLES\n" +
